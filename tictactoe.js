@@ -26,3 +26,32 @@ function renderBoard (){
 function renderText(){
   $('.playerText').text('Turn : ' + player)
 }
+
+function changePlayer(){
+  if (player == "O")
+    player = "X";
+  else
+    player = "O";
+}
+
+function checkState(){
+  $.each(winConditions, function(index,value){
+   if (board[winConditions[index][0]] == board[winConditions[index][1]] 
+    && board[winConditions[index][0]] == board[winConditions[index][2]] 
+    && board[winConditions[index][0]] != " "){
+      gameOver = true;
+      $('.playerText').text('Player ' + player + ' wins');
+      renderBoard();
+   }
+  });
+}
+
+function setCell(cell){
+  if (gameOver) return;
+  board[cell] = player;
+  checkState();
+  if (gameOver) return;
+  changePlayer();
+  renderBoard();
+  renderText();
+}
